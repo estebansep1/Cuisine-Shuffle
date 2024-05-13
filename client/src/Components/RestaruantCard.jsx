@@ -1,9 +1,7 @@
-const RestaurantCard = ({restaurant, onClick}) => {
-    return (
-        <div>
+import React from 'react'
 
-        </div>
-    )
+export default function RestaruantCard() {
+  return (
+    <div>RestaruantCard</div>
+  )
 }
-
-export default RestaurantCard;
