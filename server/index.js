@@ -7,7 +7,7 @@ const app = express();
 const PORT = process.env.PORT || 5002;
 
 const corsOptions = {
-  origin: 'https://main--cuisineshuffle.netlify.app/choose', 
+  origin: 'https://cuisineshuffle.netlify.app/choose', 
   optionsSuccessStatus: 200
 };
 
