@@ -2,13 +2,14 @@ import { useEffect, useState, useCallback, useMemo } from "react";
 import Confetti from "react-confetti";
 import RestaurantCard from "./RestaruantCard";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";  
 
 function ChoosePage() {
   const [loading, setLoading] = useState(false);
   const [restaurants, setRestaurants] = useState([]);
   const navigate = useNavigate();
 
-  const zipCodes = useMemo(() => [92530, 92595, 92562], []); 
+  const zipCodes = useMemo(() => [92530, 92595, 92562], []);
 
   const shuffleArray = (array) => {
     for (let i = array.length - 1; i > 0; i--) {
@@ -22,21 +23,20 @@ function ChoosePage() {
     const categories = "all";
     const apiCalls = zipCodes.map((location) => {
       const apiUrl = `${process.env.REACT_APP_API_URL}/api/yelp?location=${encodeURIComponent(location)}&categories=${encodeURIComponent(categories)}`;
-      return fetch(apiUrl)
+      return axios.get(apiUrl, { maxRedirects: 0 }) // axios handles redirects
         .then((response) => {
-          if (!response.ok) {
+          if (response.status !== 200) {
             throw new Error("Network error");
           }
-          return response.json();
-        })
-        .then((data) => data.businesses || []);
+          return response.data.businesses || [];
+        });
     });
 
     try {
       const results = await Promise.all(apiCalls);
       let allRestaurants = results.flat();
       shuffleArray(allRestaurants);
-      allRestaurants = allRestaurants.slice(0, 20); 
+      allRestaurants = allRestaurants.slice(0, 20);
       setRestaurants(allRestaurants);
     } catch (error) {
       console.error(error);
