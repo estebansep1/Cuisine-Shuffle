@@ -6,8 +6,19 @@ const axios = require("axios");
 const app = express();
 const PORT = process.env.PORT || 5002;
 
+const allowedOrigins = [
+  'https://main--cuisineshuffle.netlify.app',
+  'https://cuisineshuffle.netlify.app'
+];
+
 const corsOptions = {
-  origin: 'https://cuisineshuffle.netlify.app/choose', 
+  origin: function (origin, callback) {
+    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   optionsSuccessStatus: 200
 };
 
