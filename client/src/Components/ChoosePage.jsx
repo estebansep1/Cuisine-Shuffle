@@ -1,22 +1,23 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback, useMemo } from "react";
 import Confetti from "react-confetti";
 import RestaurantCard from "./RestaruantCard";
 import { useNavigate } from "react-router-dom";
 
-function Choose() {
+function ChoosePage() {
   const [loading, setLoading] = useState(false);
   const [restaurants, setRestaurants] = useState([]);
-  const zipCodes = [92530, 92595, 92562]; 
   const navigate = useNavigate();
-  
-  function shuffleArray(array) {
+
+  const zipCodes = useMemo(() => [92530, 92595, 92562], []); 
+
+  const shuffleArray = (array) => {
     for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [array[i], array[j]] = [array[j], array[i]];
     }
-  }
+  };
 
-  const fetchRestaurants = async () => {
+  const fetchRestaurants = useCallback(async () => {
     setLoading(true);
     const categories = "all";
     const apiCalls = zipCodes.map((location) => {
@@ -42,11 +43,11 @@ function Choose() {
     }
 
     setLoading(false);
-  };
+  }, [zipCodes]);
 
   useEffect(() => {
     fetchRestaurants();
-  }, []);
+  }, [fetchRestaurants]);
 
   const removeFromFront = () => {
     setRestaurants((prevRestaurants) => {
@@ -127,4 +128,4 @@ function Choose() {
   );
 }
 
-export default Choose;
+export default ChoosePage;
