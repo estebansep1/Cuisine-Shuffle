@@ -3,8 +3,6 @@ import Confetti from "react-confetti";
 import RestaurantCard from "./RestaruantCard";
 import { useNavigate } from "react-router-dom";
 
-
-
 function Choose() {
   const [loading, setLoading] = useState(false);
   const [restaurants, setRestaurants] = useState([]);
@@ -72,7 +70,7 @@ function Choose() {
 
   if (loading || restaurants.length === 0) {
     return (
-      <div className="flex flex-col justify-center items-center w-full h-full bg-orange-300 gap-12">
+      <div className="flex flex-col justify-center items-center w-full h-full bg-orange-300 gap-12 overflow-hidden">
         Loading...
       </div>
     );
@@ -80,48 +78,50 @@ function Choose() {
 
   return (
     <>
-      <div className="flex flex-col justify-center items-center w-full min-h-screen bg-orange-300 gap-6 p-4 overflow-hidden"> {/* Added overflow-hidden */}
+      <div className="flex flex-col justify-center items-center w-full min-h-screen bg-orange-300 gap-6 p-4 overflow-hidden">
         {restaurants.length > 1 ? (
-          <div className="flex flex-col md:flex-row justify-center items-center w-full gap-6 md:gap-24"> {/* Responsive flex direction and gap */}
-            <RestaurantCard
-              restaurant={restaurants[0]}
-              onClick={removeFromBack}
-            />
-
-            <h1 className="text-3xl md:text-5xl font-black text-white">OR</h1> {/* Responsive text size */}
-
-            <RestaurantCard
-              restaurant={restaurants[restaurants.length - 1]}
-              onClick={removeFromFront}
-            />
+          <div className="flex flex-col md:flex-row md:justify-center items-center w-full gap-4 md:gap-6 lg:gap-8 md:max-w-2xl lg:max-w-4xl">
+            <div className="flex justify-center w-full md:w-1/2 p-2">
+              <RestaurantCard
+                restaurant={restaurants[0]}
+                onClick={removeFromBack}
+              />
+            </div>
+            <h1 className="text-3xl md:text-5xl font-black text-white">OR</h1>
+            <div className="flex justify-center w-full md:w-1/2 p-2">
+              <RestaurantCard
+                restaurant={restaurants[restaurants.length - 1]}
+                onClick={removeFromFront}
+              />
+            </div>
           </div>
         ) : (
           <div className="flex flex-col justify-center items-center w-full gap-6">
             <Confetti />
-
-            <h1 className="text-4xl md:text-6xl font-black text-white animate-bounce"> {/* Responsive text size */}
+            <h1 className="text-4xl md:text-6xl font-black text-white animate-bounce">
               Winner!
             </h1>
-            <div className="flex flex-col md:flex-row justify-center items-center w-full gap-6 md:gap-24"> {/* Responsive flex direction and gap */}
-              <RestaurantCard
-                restaurant={restaurants[0]}
-                onClick={() => {
-                  redirect(restaurants[0].url);
-                  console.log(restaurants[0].url);
-                }}
-              />
+            <div className="flex flex-col md:flex-row justify-center items-center w-full gap-4 md:gap-6 lg:gap-8">
+              <div className="flex justify-center w-full md:w-1/2 p-2">
+                <RestaurantCard
+                  restaurant={restaurants[0]}
+                  onClick={() => {
+                    redirect(restaurants[0].url);
+                    console.log(restaurants[0].url);
+                  }}
+                />
+              </div>
             </div>
           </div>
         )}
         <button
-          className="mt-6 px-8 py-3 bg-white rounded-full shadow-sm transition-shadow duration-300 hover:shadow-xl" // Adjusted padding for the button
+          className="mt-6 px-8 py-3 bg-white rounded-full shadow-sm transition-shadow duration-300 hover:shadow-xl"
           onClick={() => navigate("/")}
         >
-          <h1 className="text-lg md:text-2xl font-bold text-orange-400 uppercase"> {/* Responsive text size */}
+          <h1 className="text-lg md:text-2xl font-bold text-orange-400 uppercase">
             Home
           </h1>
         </button>
-
       </div>
     </>
   );
