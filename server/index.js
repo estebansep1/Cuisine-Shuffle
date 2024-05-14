@@ -7,7 +7,7 @@ const app = express();
 const PORT = process.env.PORT || 5002;
 
 const corsOptions = {
-  origin: 'https://main--cuisineshuffle.netlify.app/choose',
+  origin: 'https://main--cuisineshuffle.netlify.app/choose', 
   optionsSuccessStatus: 200
 };
 
@@ -28,7 +28,7 @@ app.get("/api/yelp", async (req, res) => {
     const data = response.data;
     res.json(data);
   } catch (error) {
-    console.error("Error fetching data:", error);
+    console.error("Error fetching data:", error.response ? error.response.data : error.message);
     res.status(500).json({ error: "Internal Server Error" });
   }
 });

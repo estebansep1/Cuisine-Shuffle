@@ -23,7 +23,7 @@ function ChoosePage() {
     const categories = "all";
     const apiCalls = zipCodes.map((location) => {
       const apiUrl = `${process.env.REACT_APP_API_URL}/api/yelp?location=${encodeURIComponent(location)}&categories=${encodeURIComponent(categories)}`;
-      return axios.get(apiUrl, { maxRedirects: 0 }) // axios handles redirects
+      return axios.get(apiUrl.replace(/([^:]\/)\/+/g, "$1"), { maxRedirects: 0 })
         .then((response) => {
           if (response.status !== 200) {
             throw new Error("Network error");
@@ -31,7 +31,7 @@ function ChoosePage() {
           return response.data.businesses || [];
         });
     });
-
+  
     try {
       const results = await Promise.all(apiCalls);
       let allRestaurants = results.flat();
@@ -41,10 +41,10 @@ function ChoosePage() {
     } catch (error) {
       console.error(error);
     }
-
+  
     setLoading(false);
   }, [zipCodes]);
-
+  
   useEffect(() => {
     fetchRestaurants();
   }, [fetchRestaurants]);
