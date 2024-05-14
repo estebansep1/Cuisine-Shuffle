@@ -3,6 +3,8 @@ import Confetti from "react-confetti";
 import RestaurantCard from "./RestaruantCard";
 import { useNavigate } from "react-router-dom";
 
+
+
 function Choose() {
   const [loading, setLoading] = useState(false);
   const [restaurants, setRestaurants] = useState([]);
@@ -78,15 +80,15 @@ function Choose() {
 
   return (
     <>
-      <div className="flex flex-col justify-center items-center w-full h-full bg-orange-300 gap-12">
+      <div className="flex flex-col justify-center items-center w-full min-h-screen bg-orange-300 gap-6 p-4 overflow-hidden"> {/* Added overflow-hidden */}
         {restaurants.length > 1 ? (
-          <div className="flex flex-row justify-center items-center w-full h-1/2 gap-24">
+          <div className="flex flex-col md:flex-row justify-center items-center w-full gap-6 md:gap-24"> {/* Responsive flex direction and gap */}
             <RestaurantCard
               restaurant={restaurants[0]}
               onClick={removeFromBack}
             />
 
-            <h1 className="text-5xl font-black text-white">OR</h1>
+            <h1 className="text-3xl md:text-5xl font-black text-white">OR</h1> {/* Responsive text size */}
 
             <RestaurantCard
               restaurant={restaurants[restaurants.length - 1]}
@@ -94,13 +96,13 @@ function Choose() {
             />
           </div>
         ) : (
-          <div className="flex flex-col justify-center items-center w-full h-full gap-12">
+          <div className="flex flex-col justify-center items-center w-full gap-6">
             <Confetti />
 
-            <h1 className="text-8xl font-black text-white animate-bounce">
+            <h1 className="text-4xl md:text-6xl font-black text-white animate-bounce"> {/* Responsive text size */}
               Winner!
             </h1>
-            <div className="flex flex-row justify-center items-center w-full h-1/2 gap-24">
+            <div className="flex flex-col md:flex-row justify-center items-center w-full gap-6 md:gap-24"> {/* Responsive flex direction and gap */}
               <RestaurantCard
                 restaurant={restaurants[0]}
                 onClick={() => {
@@ -112,10 +114,10 @@ function Choose() {
           </div>
         )}
         <button
-          className="mt-12 px-24 py-4 bg-white rounded-full shadow-sm transition-shadow duration-300 hover:shadow-xl"
+          className="mt-6 px-8 py-3 bg-white rounded-full shadow-sm transition-shadow duration-300 hover:shadow-xl" // Adjusted padding for the button
           onClick={() => navigate("/")}
         >
-          <h1 className="text-2xl font-bold text-orange-400 uppercase">
+          <h1 className="text-lg md:text-2xl font-bold text-orange-400 uppercase"> {/* Responsive text size */}
             Home
           </h1>
         </button>
